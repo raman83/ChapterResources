@@ -1,0 +1,312 @@
+Course Resources and Setup Guide
+
+This guide explains everything you need to get started with the Bank Stack codebase and follow along with the course smoothly.
+
+You do not need to know everything upfront. Basic familiarity is enough. The course will guide you step by step.
+
+1. Getting Code Access
+
+The Bank Stack codebase is private.
+
+To get access:
+
+Email: bankstack9@gmail.com
+
+Include:
+
+Your GitHub username
+
+A short intro (who you are, what you want to learn or work on)
+
+You will receive a GitHub repository invite.
+
+2. Java Version Used
+
+Java: 17 (LTS)
+
+Tested version: 17.0.10
+
+3. Spring Boot Version
+
+Spring Boot: 3.x (3.3 in most services)
+
+4. IDE Recommendation
+
+You can use any IDE you are comfortable with.
+
+Recommended (used throughout the course):
+
+Spring Tools Suite (STS)
+
+Alternatives:
+
+IntelliJ IDEA
+
+VS Code
+
+All code examples are IDE-agnostic.
+
+5. Database Setup (PostgreSQL Using Docker)
+
+We run PostgreSQL using Docker Desktop.
+
+Prerequisites:
+
+Install Docker Desktop
+
+Make sure Docker is running
+
+PostgreSQL via Docker (example):
+
+docker run -d \
+
+--name bankstack-postgres \
+
+-e POSTGRES_DB=postgres \
+
+-e POSTGRES_USER=postgres \
+
+-e POSTGRES_PASSWORD=postgres \
+
+-p 5432:5432 \
+
+-v bankstack_pgdata:/var/lib/postgresql/data \
+
+postgres:15
+
+This setup:
+
+Uses a named volume (data persists across restarts)
+
+Exposes PostgreSQL on port 5432
+
+6. Database Access (DBeaver)
+
+We recommend DBeaver for inspecting data.
+
+Steps:
+
+Install DBeaver
+
+Create a new PostgreSQL connection
+
+Use:
+
+Host: localhost
+
+Port: 5432
+
+Database: postgres
+
+Username: postgres
+
+Password: postgres
+
+You can use any DB client you like. DBeaver is just convenient.
+
+7. Messaging (Kafka and Kafka UI Using Docker)
+
+Kafka is the event backbone of our system. We use it for:
+
+Payment workflows
+
+Sagas
+
+Retries
+
+Asynchronous processing
+
+Kafka setup (Docker Compose example):
+
+version: "3"
+
+services:
+
+zookeeper:
+
+image: confluentinc/cp-zookeeper:7.6.0
+
+environment:
+
+ZOOKEEPER_CLIENT_PORT: 2181
+
+kafka:
+
+image: confluentinc/cp-kafka:7.6.0
+
+depends_on:
+
+- zookeeper
+
+ports:
+
+- "9092:9092"
+
+environment:
+
+KAFKA_BROKER_ID: 1
+
+KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+
+KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+
+KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+kafka-ui:
+
+image: provectuslabs/kafka-ui
+
+ports:
+
+- "8079:8080"
+
+environment:
+
+KAFKA_CLUSTERS_0_NAME: local
+
+KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+
+Kafka UI:
+
+Open: http://localhost:8079
+
+View topics, messages, and consumer groups
+
+We also have dedicated videos explaining Kafka concepts if you want deeper understanding.
+
+8. Authentication and Identity (Auth0 Trial)
+
+We use Auth0 for authentication and authorization.
+
+Why Auth0:
+
+Real-world identity provider
+
+Secure JWT tokens
+
+Supports machine-to-machine authentication
+
+No custom authentication code
+
+Auth0 account:
+
+Sign up at https://auth0.com
+
+Free tier is sufficient for this course
+
+Auth0 Concepts Used in This Course
+
+We use Auth0 in two ways:
+
+User authentication
+
+Users log in
+
+Auth0 issues JWT tokens
+
+Tokens secure REST APIs
+
+Machine-to-machine (M2M)
+
+No user involved
+
+Services authenticate using client credentials
+
+Used for Kafka-triggered flows
+
+This is standard production architecture, not a workaround.
+
+What You Need to Configure in Auth0
+
+API
+
+Name: Bank Stack API
+
+Identifier: https://mockbank/api
+
+Audience: https://bankstack/api
+
+Permissions used by this API
+
+Permission                                                    Description
+
+fdx:accounts.read                                       Read access to user accounts
+
+fdx:accounts.write                                      Create an account
+
+fdx:transactions.write                                 Create transactions
+
+fdx:transactions.read                                  Read transactions
+
+fdx:users.write                                             Create users
+
+admin:users.write                                        Admin create users
+
+admin:accounts.read                                  Read all accounts
+
+admin:accounts.write                                  Update/Create accounts
+
+fdx:bill.read                                                   Read bill related operations
+
+fdx:bill.write                                                   Write bill related operations
+
+admin:accounts                                             Admin to handle account debit
+
+3 Applications
+
+BankStackAdminApp (Regular Web App for user login)
+
+M2MApp (Machine-to-machine for service calls)
+
+SinglePageApp (Single Page Application)
+
+The course walks through this step by step. No guesswork required.
+
+9. How Much Auth0 Knowledge Is Required?
+
+Very little.
+
+If you understand:
+
+What a JWT is
+
+What a scope/permission means
+
+Why services sometimes need tokens
+
+You are good. We introduce Auth0 only when required.
+
+10. Learning Philosophy (Important)
+
+This course is not about memorizing tools.
+
+We introduce tools when needed
+
+We explain why, not just how
+
+We focus on real banking behavior
+
+We avoid fake demos and shortcuts
+
+Think of this as building a real bank slowly, correctly, and transparently.
+
+Summary
+
+This course uses:
+
+Java 17
+
+Spring Boot 3.x
+
+Spring Data JPA
+
+PostgreSQL (Docker)
+
+Kafka and Kafka UI
+
+Auth0 (Free Tier)
+
+STS, IntelliJ, or VS Code
+
+All production-grade. All explained from first principles.
+
