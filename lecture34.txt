@@ -1,0 +1,32 @@
+In this lecture, we walk through the API specification for the Accounts microservice that was designed from the previously defined use case.
+
+We explain how to read and navigate the OpenAPI contract using Swagger Editor, and how requirements are translated into a clean, well-structured API design.
+
+Steps to add a mocking server
+
+Step 1: Install Prism
+
+npm install -g @stoplight/prism-cli
+
+Step 2: Run a Mock Server from your OpenAPI file
+
+In the folder where your YAML is saved:
+
+prism mock account-api.yaml --port 4010 --cors
+
+This starts a mock server on:
+
+http://localhost:4010
+
+Step 3: Expose it to the internet with HTTPS (so Swagger Editor can call it)
+
+Run:
+
+npx cloudflared tunnel --url http://localhost:4010
+
+It will give you a public HTTPS URL like:
+
+https://mock-lively-hill.trycloudflare.com
+
+Step 4: Add this Mock URL in your servers:
+
