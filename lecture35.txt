@@ -1,0 +1,45 @@
+In this lecture, we continue the Accounts Service API walkthrough by focusing on real money movement within the bank.
+
+We explain how funds are reserved and released using holds, how credits and debits are applied safely using optimistic locking, and how internal account listings support administrative and operational use cases.
+
+This lecture builds on the API contract and mock setup to demonstrate how balance integrity and concurrency safety are enforced in a real banking system.
+
+
+
+Steps to add a mocking server
+
+
+
+Step 1: Install Prism
+
+npm install -g @stoplight/prism-cli
+
+
+
+Step 2: Run a Mock Server from your OpenAPI file
+
+In the folder where your YAML is saved:
+
+
+
+prism mock account-api.yaml --port 4010 --cors
+
+This starts a mock server on:
+
+http://localhost:4010
+
+
+
+Step 3: Expose it to the internet with HTTPS (so Swagger Editor can call it)
+
+Run:
+
+npx cloudflared tunnel --url http://localhost:4010
+
+It will give you a public HTTPS URL like:
+
+https://mock-lively-hill.trycloudflare.com
+
+
+
+Step 4: Add this Mock URL in your servers:
