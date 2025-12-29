@@ -290,6 +290,12 @@ We avoid fake demos and shortcuts
 
 Think of this as building a real bank slowly, correctly, and transparently.
 
+
+
+11. Sodelic Collaboration Link:
+
+https://app.sodelic.com/p/B90z9kGqLPXkdkh4?key=GBkWlPpRqKgQyq1BMJoPdhVf2UK5EW3K2XGZY47dFHm6PmuBROMHE8MGLGof6pyY
+
 Summary
 
 This course uses:
